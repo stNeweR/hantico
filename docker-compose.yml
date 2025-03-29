@@ -30,7 +30,7 @@ services:
     volumes:
       - ./_db/postgres:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: bot
+      POSTGRES_DB: hantico
       POSTGRES_PASSWORD: secret
       POSTGRES_USER: postgres
       PGDATA: /var/lib/postgresql/data
