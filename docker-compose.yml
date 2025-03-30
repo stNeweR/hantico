@@ -1,36 +1,46 @@
 version: "3"
 
 services:
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "8080:80"
-    volumes:
-      - ./:/var/www
-      - ./_docker/nginx/conf.d:/etc/nginx/conf.d
-    depends_on:
-      - app
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www
+            - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - app
+            - swagger
 
-  app:
-    build:
-      context: .
-      dockerfile: _docker/app/Dockerfile
-    container_name: app
-    volumes:
-      - ./:/var/www
-    extra_hosts:
-      - host.docker.internal:host-gateway
+    app:
+        build:
+            context: .
+            dockerfile: _docker/app/Dockerfile
+        container_name: app
+        volumes:
+            - ./:/var/www
+        extra_hosts:
+            - host.docker.internal:host-gateway
 
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - ./_db/postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: hantico
-      POSTGRES_PASSWORD: secret
-      POSTGRES_USER: postgres
-      PGDATA: /var/lib/postgresql/data
+    postgres:
+        image: postgres:latest
+        container_name: postgres
+        ports:
+            - 5432:5432
+        volumes:
+            - ./_db/postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: hantico
+            POSTGRES_PASSWORD: secret
+            POSTGRES_USER: postgres
+            PGDATA: /var/lib/postgresql/data
+
+    swagger:
+        image: swaggerapi/swagger-ui
+        container_name: swagger
+        ports:
+            - "8081:8080"
+        environment:
+            API_URL: http://localhost:8080/api-docs.json # Используем localhost
+            DISABLE_CORS: "true"
