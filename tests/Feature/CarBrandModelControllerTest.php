@@ -20,11 +20,9 @@ class CarBrandModelControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Загружаем тестовые данные
         $this->seed(CarBrandSeeder::class);
         $this->seed(CarBrandModelSeeder::class);
 
-        // Получаем тестовую модель для операций изменения
         $this->testModel = CarBrandModel::first();
     }
 
@@ -39,7 +37,7 @@ class CarBrandModelControllerTest extends TestCase
                     '*' => ['id', 'title', 'car_brand_id', 'created_at', 'updated_at']
                 ]
             ])
-            ->assertJsonCount(15, 'data'); // 3 модели × 5 брендов
+            ->assertJsonCount(15, 'data');
     }
 
     #[Test]
@@ -98,7 +96,7 @@ class CarBrandModelControllerTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('car_brand_models', $payload);
-        $this->assertDatabaseCount('car_brand_models', 16); // 15 из сидера + 1 новый
+        $this->assertDatabaseCount('car_brand_models', 16);
     }
 
     #[Test]
@@ -181,7 +179,7 @@ class CarBrandModelControllerTest extends TestCase
             ]);
 
         $this->assertDatabaseMissing('car_brand_models', ['id' => $this->testModel->id]);
-        $this->assertDatabaseCount('car_brand_models', 14); // 15 из сидера - 1 удаленный
+        $this->assertDatabaseCount('car_brand_models', 14);
     }
 
     #[Test]

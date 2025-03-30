@@ -19,10 +19,8 @@ class CarBrandControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Запускаем сидер с тестовыми марками
         $this->seed(CarBrandSeeder::class);
 
-        // Дополнительные данные для специфических тестов
         $this->testBrand = CarBrand::create(['title' => 'TestBrand']);
     }
 
@@ -43,12 +41,11 @@ class CarBrandControllerTest extends TestCase
     #[Test]
     public function it_can_filter_car_brands_by_title()
     {
-        // Фильтруем по русскому названию как в сидере
         $response = $this->json('GET', '/api/car-brands', ['title' => 'Audi']);
 
         $response->assertStatus(200)
             ->assertJsonCount(1, 'data')
-            ->assertJsonFragment(['title' => 'Audi']); // Или 'Ауди' если возвращается русское название
+            ->assertJsonFragment(['title' => 'Audi']);
     }
 
     #[Test]
