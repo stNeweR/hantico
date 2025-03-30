@@ -5,7 +5,7 @@ namespace App\DTO;
 use App\Http\Requests\FindByTitleRequest;
 use Illuminate\Http\Request;
 
-class CarBrandFilterDto
+class FilterDto
 {
     public function __construct(
         public ?string $title = null

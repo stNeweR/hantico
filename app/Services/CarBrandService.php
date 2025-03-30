@@ -3,37 +3,36 @@
 namespace App\Services;
 
 use App\DTO\CarBrandDto;
-use App\Dto\CarBrandFilterDto;
-use App\Models\CarBrand;
+use App\DTO\FilterDto;
+use App\Repositories\Contracts\CarBrandRepositoryInterface;
 
 class CarBrandService
 {
-    public function get(CarBrandFilterDto $filterDto)
-    {
-        $query = CarBrand::query();
+    public function __construct(
+        private CarBrandRepositoryInterface $repository
+    ) {}
 
+    public function get(FilterDto $filterDto)
+    {
         if ($filterDto->title) {
-            $query->where('title', 'like', '%' . $filterDto->title . '%');
+            return $this->repository->findBy([['title', 'like', '%' . $filterDto->title . '%']]);
         }
 
-        return $query->get();
+        return $this->repository->all();
     }
 
-    public function delete(int $id): bool|null
+    public function delete(int $carBrandId): bool
     {
-        $carBrand = CarBrand::query()->findOrFail($id);
-        return $carBrand->delete();
+        return $this->repository->delete($carBrandId);
     }
 
     public function create(CarBrandDto $carBrandDto)
     {
-        return CarBrand::query()->firstOrCreate($carBrandDto->toArray());
+        return $this->repository->create($carBrandDto->toArray());
     }
 
-    public function update(CarBrandDto $carBrandDto, CarBrand $carBrand)
+    public function update(CarBrandDto $carBrandDto, int $id)
     {
-        $carBrand->update($carBrandDto->toArray());
-
-        return $carBrand;
+        return $this->repository->update($id, $carBrandDto->toArray());
     }
 }

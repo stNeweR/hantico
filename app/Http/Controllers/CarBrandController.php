@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTO\CarBrandDto;
-use App\DTO\CarBrandFilterDto;
+use App\DTO\FilterDto;
 use App\Http\Requests\CarBrand\CarBrandRequest;
 use App\Http\Requests\FindByTitleRequest;
 use App\Http\Resources\CarBrandResource;
@@ -15,7 +15,7 @@ class CarBrandController extends Controller
 {
     public function index(FindByTitleRequest $request, CarBrandService $service)
     {
-        $carBrands = $service->get(CarBrandFilterDto::fromRequest($request));
+        $carBrands = $service->get(FilterDto::fromRequest($request));
 
         return CarBrandResource::collection($carBrands);
     }
@@ -32,8 +32,8 @@ class CarBrandController extends Controller
         return new CarBrandResource($carBrand);
     }
 
-    public function update(CarBrandRequest $request, CarBrandService $service, CarBrand $carBrand) {
-        $updateCarBrand = $service->update(CarBrandDto::fromRequest($request), $carBrand);
+    public function update(CarBrandRequest $request, CarBrandService $service, int $carBrandId) {
+        $updateCarBrand = $service->update(CarBrandDto::fromRequest($request), $carBrandId);
 
         return new CarBrandResource($updateCarBrand);
     }
