@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CarBrand;
 use App\Models\CarBrandModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,73 +14,28 @@ class CarBrandModelSeeder extends Seeder
      */
     public function run(): void
     {
-        // Массив моделей машин с привязкой к брендам
+        $carBrands = CarBrand::all();
+
+        // Массив моделей с соответствующими брендами (по названию бренда)
         $models = [
-            [
-                'title' => 'Granta',
-                'car_brand_id' => 1,
-            ],
-            [
-                'title' => 'Vesta',
-                'car_brand_id' => 1,
-            ],
-            [
-                'title' => 'Aura',
-                'car_brand_id' => 1,
-            ],
-            [
-                'title' => 'X5',
-                'car_brand_id' => 2,
-            ],
-            [
-                'title' => 'X6',
-                'car_brand_id' => 2,
-            ],
-            [
-                'title' => 'M3',
-                'car_brand_id' => 2,
-            ],
-            [
-                'title' => '6',
-                'car_brand_id' => 3,
-            ],
-            [
-                'title' => '3',
-                'car_brand_id' => 3,
-            ],
-            [
-                'title' => 'CX-5',
-                'car_brand_id' => 3,
-            ],
-            [
-                'title' => 'Corolla',
-                'car_brand_id' => 4,
-            ],
-            [
-                'title' => 'Camry',
-                'car_brand_id' => 4,
-            ],
-            [
-                'title' => 'RAV4',
-                'car_brand_id' => 4,
-            ],
-            [
-                'title' => 'A4',
-                'car_brand_id' => 5,
-            ],
-            [
-                'title' => 'A6',
-                'car_brand_id' => 5,
-            ],
-            [
-                'title' => 'Q5',
-                'car_brand_id' => 5,
-            ],
+            'Лада' => ['Granta', 'Vesta', 'Aura'],
+            'BMW' => ['X5', 'X6', 'M3'],
+            'Mazda' => ['6', '3', 'CX-5'],
+            'Toyota' => ['Corolla', 'Camry', 'RAV4'],
+            'Audi' => ['A4', 'A6', 'Q5'],
         ];
 
-
-        foreach ($models as $modelData) {
-            CarBrandModel::create($modelData);
+        // Заполняем таблицу car_brand_models
+        foreach ($carBrands as $brand) {
+            // Находим модели для текущего бренда
+            if (isset($models[$brand->title])) {
+                foreach ($models[$brand->title] as $modelTitle) {
+                    CarBrandModel::create([
+                        'title' => $modelTitle,
+                        'car_brand_id' => $brand->id, // Используем динамический ID бренда
+                    ]);
+                }
+            }
         }
     }
 }

@@ -26,9 +26,9 @@ class CarBrandModelService
         return $this->repository->create($carBrandModel->toArray());
     }
 
-    public function update(CarBrandModelDto $carBrandModelDto, int $id)
+    public function update(CarBrandModelDto $carBrandModelDto, int $carBrandModelId)
     {
-        return $this->repository->update($id, $carBrandModelDto->toArray());
+        return $this->repository->update($carBrandModelId, $carBrandModelDto->toArray());
     }
 
     public function delete(int $carBrandModelId)
