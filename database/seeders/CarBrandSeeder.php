@@ -13,7 +13,6 @@ class CarBrandSeeder extends Seeder
      */
     public function run(): void
     {
-        // Массив брендов для добавления
         $brands = [
             'Лада',
             'BMW',
@@ -22,7 +21,6 @@ class CarBrandSeeder extends Seeder
             'Audi',
         ];
 
-        // Добавление брендов в базу данных
         foreach ($brands as $brandName) {
             CarBrand::create(['title' => $brandName]);
         }
